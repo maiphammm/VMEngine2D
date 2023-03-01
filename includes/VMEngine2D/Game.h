@@ -48,4 +48,5 @@ private:
 	//store a texture object
 	Texture* Texture1;
 	Texture* Texture2;
+	Texture* Texture3;
 };

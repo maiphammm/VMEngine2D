@@ -115,6 +115,9 @@ void Game::Draw()
 	if (Texture2 != nullptr) {
 		Texture2->Draw(SdlRenderer, Vector2(200.0f, 100.0f), nullptr);
 	}
+	if (Texture3 != nullptr) {
+		Texture3->Draw(SdlRenderer, Vector2(300.0f, 100.0f), nullptr);
+	}
 
 	//show the new frame
 	SDL_RenderPresent(SdlRenderer);
@@ -131,6 +134,11 @@ void Game::Run()
 		Texture2 = new Texture();
 		if (!Texture2->LoadImageFromFile("Content/Images/Letters/ORed.png", SdlRenderer)) {
 			Texture2 = nullptr;
+		}
+
+		Texture3 = new Texture();
+		if (!Texture3->LoadImageFromFile("Content/Images/Letters/R.png", SdlRenderer)) {
+			Texture3 = nullptr;
 		}
 	}
 	while (!bIsGameOver) {
