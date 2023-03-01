@@ -1,6 +1,7 @@
 #include "VMEngine2D/Game.h"
 #include "VMEngine2D/Vector2.h"
-#include "VMEngine2D/Animation.h"
+#include "VMEngine2D/AnimStateMachine.h"
+
 using namespace std;
 
 Game& Game::GetGameInstance()
@@ -26,7 +27,7 @@ Game::Game()
 	SdlWindow = nullptr;
 	SdlRenderer = nullptr;
 	DeltaTime = 0.0;
-	Animation1 = nullptr;
+	ASM1 = nullptr;
 	
 }
 
@@ -127,7 +128,8 @@ void Game::Draw()
 	SDL_RenderClear(SdlRenderer);
 
 	//Do anything that needs to be drawn to the screen here
-	Animation1->Draw(SdlRenderer, Vector2(100.0f, 100.0f), 2.0f, false);
+	ASM1->Draw(SdlRenderer, 0, Vector2(100.0f, 100.0f), 4.0f, false);
+	ASM1->Draw(SdlRenderer, 1, Vector2(400.0f, 100.0f), 6.0f, false);
 
 	//show the new frame
 	SDL_RenderPresent(SdlRenderer);
@@ -153,6 +155,9 @@ void Game::Run()
 
 void Game::CloseGame()
 {
+	cout << "Destroyed Animation..." << endl;
+	delete ASM1;
+
 	//Handle SDL unintilisation
 	cout << "Cleaning up SDL" << endl;
 	SDL_DestroyWindow(SdlWindow);
@@ -163,14 +168,29 @@ void Game::BeginPlay()
 {
 	cout << "Load Game Assets!" << endl;
 
+	ASM1 = new AnimStateMachine();
+
 	STAnimationData AnimData = STAnimationData();
-	AnimData.EndFrame = 10;
+	
+	AnimData.FPS = 24;
+	AnimData.MaxFrames = 12;
+
+	//the frame should be assumed as index by array values
+	AnimData.StartFrame = 0;
+	AnimData.EndFrame = 11;
+
+	ASM1->AddAnimation(SdlRenderer,
+		"Content/Images/MainShip/Main Ship - Shields - Round Shield.png",
+		AnimData);
+
 	AnimData.FPS = 24;
 	AnimData.MaxFrames = 10;
-	AnimData.StartFrame = 0;
 
-	Animation1 = new Animation(
-		SdlRenderer, 
-		"Content/Images/Main Ship - Shields - Invincibility Shield.png",
+	//the frame should be assumed as index by array values
+	AnimData.StartFrame = 0;
+	AnimData.EndFrame = 9;
+
+	ASM1->AddAnimation(SdlRenderer,
+		"Content/Images/MainShip/Main Ship - Shields - Invincibility Shield.png",
 		AnimData);
 }

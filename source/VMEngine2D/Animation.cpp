@@ -22,7 +22,7 @@ Animation::Animation(SDL_Renderer* Renderer, const char* SpriteSheetPath, STAnim
 	FramePos.w = SpriteSheet->GetDimensions().w / max(1u, AnimationData.MaxFrames);
 
 	//set the height at the height of the texture
-	FramePos.h = SpriteSheet->GetDimensions.h;
+	FramePos.h = SpriteSheet->GetDimensions().h;
 
 	//set the possition of the x on the clip rectangle to the correct frame location
 	FramePos.x = FramePos.w * CurrentFrame;
@@ -65,9 +65,7 @@ void Animation::OnFrameUpdate()
 		CurrentFrame = AnimationData.StartFrame;
 	}
 
-	
-
-	//update the frame pos
+	//update the frame pos x
 	FramePos.x = FramePos.w * CurrentFrame;
 }
 

@@ -2,8 +2,7 @@
 #include "SDL2/SDL.h"
 #include <iostream>
 
-class Animation;
-class Texture;
+class AnimStateMachine;
 
 class Game {
 public:
@@ -59,5 +58,5 @@ private:
 
 	//hold the time between each frame
 	double DeltaTime;
-	Animation* Animation1;
+	AnimStateMachine* ASM1;
 };
