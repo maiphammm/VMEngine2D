@@ -1,7 +1,1 @@
-﻿  Game.cpp
-  VMEngine2D.vcxproj -> C:\Users\Mai\Desktop\AIT\GameEngine\VMEngine2D\x64\Debug\VMEngine2D.exe
-  C:\Users\Mai\Desktop\AIT\GameEngine\VMEngine2D\VMEngine2D\lib\SDL2.dll
-  C:\Users\Mai\Desktop\AIT\GameEngine\VMEngine2D\VMEngine2D\lib\SDL2_image.dll
-  C:\Users\Mai\Desktop\AIT\GameEngine\VMEngine2D\VMEngine2D\lib\SDL2_mixer.dll
-  C:\Users\Mai\Desktop\AIT\GameEngine\VMEngine2D\VMEngine2D\lib\SDL2_ttf.dll
-          4 file(s) copied.
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(390,5): error MSB8020: The build tools for v143 (Platform Toolset = 'v143') cannot be found. To build using the v143 build tools, please install v143 build tools.  Alternatively, you may upgrade to the current Visual Studio tools by selecting the Project menu or right-click the solution, and then selecting "Retarget solution".

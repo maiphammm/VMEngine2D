@@ -1,6 +1,6 @@
 #include "VMEngine2D/Game.h"
 #include "VMEngine2D/Vector2.h"
-#include "VMEngine2D/Texture.h"
+#include "VMEngine2D/Animation.h"
 using namespace std;
 
 Game& Game::GetGameInstance()
@@ -24,7 +24,10 @@ Game::Game()
 	cout << "Initialised Game Instance!" << endl;
 	bIsGameOver = false;
 	SdlWindow = nullptr;
-	Texture1 = nullptr;
+	SdlRenderer = nullptr;
+	DeltaTime = 0.0;
+	Animation1 = nullptr;
+	
 }
 
 Game::~Game()
@@ -98,7 +101,22 @@ void Game::ProcessInput()
 
 void Game::Update()
 {
+	//static variables in methods will only intialise once
+	//update with the previous frames time passed
+	static double LastTickTime = 0.0;
 	
+	//get the current time in miiliseconds that hass passed since the game has started
+	//GetTicks64 returns a Unit64 which means we need to convert it into the double
+	double CurrentTickTime = static_cast<double>(SDL_GetTicks64());
+
+	//get the difference between last tick time and current tick time
+	double DeltaMil = CurrentTickTime - LastTickTime;
+	
+	//set Delta time but convert it to seconds
+	DeltaTime = DeltaMil / 1000.0;
+
+	//set the last tick time as the current time for the next frame
+	LastTickTime = CurrentTickTime;
 }
 
 void Game::Draw()
@@ -108,16 +126,8 @@ void Game::Draw()
 	//clear the previous frame
 	SDL_RenderClear(SdlRenderer);
 
-	//Draw texture
-	if (Texture1 != nullptr) {
-		Texture1->Draw(SdlRenderer, Vector2(100.0f, 100.0f), nullptr);
-	}
-	if (Texture2 != nullptr) {
-		Texture2->Draw(SdlRenderer, Vector2(200.0f, 100.0f), nullptr);
-	}
-	if (Texture3 != nullptr) {
-		Texture3->Draw(SdlRenderer, Vector2(300.0f, 100.0f), nullptr);
-	}
+	//Do anything that needs to be drawn to the screen here
+	Animation1->Draw(SdlRenderer, Vector2(100.0f, 100.0f), 2.0f, false);
 
 	//show the new frame
 	SDL_RenderPresent(SdlRenderer);
@@ -126,20 +136,7 @@ void Game::Draw()
 void Game::Run()
 {
 	if (!bIsGameOver) {
-		Texture1 = new Texture();
-		if (!Texture1->LoadImageFromFile("Content/Images/Letters/LBlue.png", SdlRenderer)) {
-			Texture1 = nullptr;
-		}
-
-		Texture2 = new Texture();
-		if (!Texture2->LoadImageFromFile("Content/Images/Letters/ORed.png", SdlRenderer)) {
-			Texture2 = nullptr;
-		}
-
-		Texture3 = new Texture();
-		if (!Texture3->LoadImageFromFile("Content/Images/Letters/R.png", SdlRenderer)) {
-			Texture3 = nullptr;
-		}
+		BeginPlay();
 	}
 	while (!bIsGameOver) {
 		ProcessInput();
@@ -160,4 +157,20 @@ void Game::CloseGame()
 	cout << "Cleaning up SDL" << endl;
 	SDL_DestroyWindow(SdlWindow);
 	SDL_Quit();
+}
+
+void Game::BeginPlay()
+{
+	cout << "Load Game Assets!" << endl;
+
+	STAnimationData AnimData = STAnimationData();
+	AnimData.EndFrame = 10;
+	AnimData.FPS = 24;
+	AnimData.MaxFrames = 10;
+	AnimData.StartFrame = 0;
+
+	Animation1 = new Animation(
+		SdlRenderer, 
+		"Content/Images/Main Ship - Shields - Invincibility Shield.png",
+		AnimData);
 }

@@ -134,11 +134,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\Source.cpp" />
+    <ClCompile Include="source\VMEngine2D\Animation.cpp" />
     <ClCompile Include="source\VMEngine2D\Game.cpp" />
     <ClCompile Include="source\VMEngine2D\Texture.cpp" />
     <ClCompile Include="source\VMEngine2D\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes\VMEngine2D\Animation.h" />
     <ClInclude Include="includes\VMEngine2D\Game.h" />
     <ClInclude Include="includes\VMEngine2D\Texture.h" />
     <ClInclude Include="includes\VMEngine2D\Vector2.h" />

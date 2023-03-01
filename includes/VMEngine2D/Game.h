@@ -2,7 +2,9 @@
 #include "SDL2/SDL.h"
 #include <iostream>
 
+class Animation;
 class Texture;
+
 class Game {
 public:
 	//Get the game singleton class
@@ -14,6 +16,13 @@ public:
 
 	//Initialise the game before the loop runs
 	void Start(const char* WTitle, bool bFullscreen, int WWidth, int WHeight);
+
+	//For precise timing
+	double GetDeltaTime() const { return DeltaTime; };
+
+	//For average timing
+	//convert from precise double to less precise float
+	float GetFDeltaTime() const { return static_cast<float>(DeltaTime); }
 
 private:
 	Game();
@@ -34,6 +43,9 @@ private:
 	//Clean up any memory we need to clean
 	void CloseGame();
 
+	//Load game logic when game loop starts
+	void BeginPlay();
+
 private:
 	//Handle the game loop condition
 	//On true end game
@@ -45,8 +57,7 @@ private:
 	//store the rendere to render graphics
 	SDL_Renderer* SdlRenderer;
 
-	//store a texture object
-	Texture* Texture1;
-	Texture* Texture2;
-	Texture* Texture3;
+	//hold the time between each frame
+	double DeltaTime;
+	Animation* Animation1;
 };
