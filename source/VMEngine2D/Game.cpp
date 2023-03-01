@@ -128,8 +128,11 @@ void Game::Draw()
 	SDL_RenderClear(SdlRenderer);
 
 	//Do anything that needs to be drawn to the screen here
-	ASM1->Draw(SdlRenderer, 0, Vector2(100.0f, 100.0f), 4.0f, false);
-	ASM1->Draw(SdlRenderer, 1, Vector2(400.0f, 100.0f), 6.0f, false);
+	ASM1->Draw(SdlRenderer, 0, Vector2(50.0f, 100.0f), 4.0f, false);
+	ASM1->Draw(SdlRenderer, 1, Vector2(200.0f, 200.0f), 6.0f, false);
+	ASM1->Draw(SdlRenderer, 2, Vector2(500.0f, 300.0f), 6.0f, false);
+	ASM1->Draw(SdlRenderer, 3, Vector2(600.0f, 100.0f), 4.0f, false);
+	ASM1->Draw(SdlRenderer, 4, Vector2(350.0f, 100.0f), 5.0f, false);
 
 	//show the new frame
 	SDL_RenderPresent(SdlRenderer);
@@ -172,9 +175,9 @@ void Game::BeginPlay()
 
 	STAnimationData AnimData = STAnimationData();
 	
+	//First sprite 
 	AnimData.FPS = 24;
 	AnimData.MaxFrames = 12;
-
 	//the frame should be assumed as index by array values
 	AnimData.StartFrame = 0;
 	AnimData.EndFrame = 11;
@@ -183,14 +186,47 @@ void Game::BeginPlay()
 		"Content/Images/MainShip/Main Ship - Shields - Round Shield.png",
 		AnimData);
 
+	//Second sprite 
 	AnimData.FPS = 24;
 	AnimData.MaxFrames = 10;
-
 	//the frame should be assumed as index by array values
 	AnimData.StartFrame = 0;
 	AnimData.EndFrame = 9;
 
 	ASM1->AddAnimation(SdlRenderer,
 		"Content/Images/MainShip/Main Ship - Shields - Invincibility Shield.png",
+		AnimData);
+
+	//Third sprite 
+	AnimData.FPS = 24;
+	AnimData.MaxFrames = 10;
+	//the frame should be assumed as index by array values
+	AnimData.StartFrame = 0;
+	AnimData.EndFrame = 9;
+
+	ASM1->AddAnimation(SdlRenderer,
+		"Content/Images/MainShip/Main Ship - Shields - Front Shield.png",
+		AnimData);
+
+	//Fourth sprite 
+	AnimData.FPS = 24;
+	AnimData.MaxFrames = 6;
+	//the frame should be assumed as index by array values
+	AnimData.StartFrame = 0;
+	AnimData.EndFrame = 5;
+
+	ASM1->AddAnimation(SdlRenderer,
+		"Content/Images/MainShip/Main Ship - Shields - Front and Side Shield.png",
+		AnimData);
+
+	//FIFth sprite 
+	AnimData.FPS = 24;
+	AnimData.MaxFrames = 7;
+	//the frame should be assumed as index by array values
+	AnimData.StartFrame = 0;
+	AnimData.EndFrame = 6;
+
+	ASM1->AddAnimation(SdlRenderer,
+		"Content/Images/MainShip/Main Ship - Weapons - Auto Cannon.png",
 		AnimData);
 }
