@@ -3,6 +3,8 @@
 
 class Vector2 {
 public:
+	//initialise vectors to 0
+	Vector2() { x = y = 0.0f; }
 	Vector2(float x, float y);
 	~Vector2() {};
 

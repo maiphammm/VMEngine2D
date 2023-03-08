@@ -1,6 +1,10 @@
 #include "VMEngine2D/Game.h"
 #include "VMEngine2D/Vector2.h"
 #include "VMEngine2D/AnimStateMachine.h"
+#include "VMEngine2D/Input.h"
+#include "VMEngine2D/GameObjects/Character.h"
+#include"VMEngine2D/GameObject.h"
+#include "VMEngine2D/Animation.h"
 
 using namespace std;
 
@@ -27,7 +31,7 @@ Game::Game()
 	SdlWindow = nullptr;
 	SdlRenderer = nullptr;
 	DeltaTime = 0.0;
-	ASM1 = nullptr;
+	PlayerInput = nullptr;
 	
 }
 
@@ -79,24 +83,20 @@ void Game::Start(const char* WTitle, bool bFullscreen, int WWidth, int WHeight)
 		SDL_Quit();
 		return;
 	}
+	//Create the input in initialisation stage
+	PlayerInput = new Input();
+
 	Run();
 }
 
 void Game::ProcessInput()
 {
-	//this stored the inputs as an event
-	SDL_Event PollEvent;
-	
-	//this will listen to the event and end the loop after all inputs are detected
-	while(SDL_PollEvent(&PollEvent)) {
-		//detec the type of event that was input
-		switch (PollEvent.type) {
-		case SDL_QUIT :
-			bIsGameOver = true;
-			break;
-		default : 
-			break;
-		}
+	//this must run before all other process input detection
+	PlayerInput->ProcessInput();
+
+	//process the input of each GameObject
+	for (GameObject* SingGameObject : AllGameObjects) {
+		SingGameObject->ProcessInput(PlayerInput);
 	}
 }
 
@@ -128,11 +128,13 @@ void Game::Draw()
 	SDL_RenderClear(SdlRenderer);
 
 	//Do anything that needs to be drawn to the screen here
-	ASM1->Draw(SdlRenderer, 0, Vector2(50.0f, 100.0f), 4.0f, false);
-	ASM1->Draw(SdlRenderer, 1, Vector2(200.0f, 200.0f), 6.0f, false);
-	ASM1->Draw(SdlRenderer, 2, Vector2(500.0f, 300.0f), 6.0f, false);
-	ASM1->Draw(SdlRenderer, 3, Vector2(600.0f, 100.0f), 4.0f, false);
-	ASM1->Draw(SdlRenderer, 4, Vector2(350.0f, 100.0f), 5.0f, false);
+	
+	//cycle through all of the game objects in the AllGameObjects
+	//each loop reassign the SingleGameObject pointer with the next item in the array
+	for (GameObject* SingleGameObject : AllGameObjects) {
+		//each loop run the draw function for the assigned gameobject
+		SingleGameObject->Draw(SdlRenderer);
+	}
 
 	//show the new frame
 	SDL_RenderPresent(SdlRenderer);
@@ -158,8 +160,13 @@ void Game::Run()
 
 void Game::CloseGame()
 {
-	cout << "Destroyed Animation..." << endl;
-	delete ASM1;
+	//handle game asset detection
+	cout << "Deleting game assets..." << endl;
+	
+
+	cout << "Deleting top level systems..." << endl;
+	//delete player from memory
+	delete PlayerInput;
 
 	//Handle SDL unintilisation
 	cout << "Cleaning up SDL" << endl;
@@ -171,7 +178,7 @@ void Game::BeginPlay()
 {
 	cout << "Load Game Assets!" << endl;
 
-	ASM1 = new AnimStateMachine();
+	Character* MyCharacter = new Character(Vector2(100.0f, 108.0f));
 
 	STAnimationData AnimData = STAnimationData();
 	
@@ -182,7 +189,7 @@ void Game::BeginPlay()
 	AnimData.StartFrame = 0;
 	AnimData.EndFrame = 11;
 
-	ASM1->AddAnimation(SdlRenderer,
+	MyCharacter->AddAnimation(SdlRenderer,
 		"Content/Images/MainShip/Main Ship - Shields - Round Shield.png",
 		AnimData);
 
@@ -193,7 +200,7 @@ void Game::BeginPlay()
 	AnimData.StartFrame = 0;
 	AnimData.EndFrame = 9;
 
-	ASM1->AddAnimation(SdlRenderer,
+	MyCharacter->AddAnimation(SdlRenderer,
 		"Content/Images/MainShip/Main Ship - Shields - Invincibility Shield.png",
 		AnimData);
 
@@ -204,7 +211,7 @@ void Game::BeginPlay()
 	AnimData.StartFrame = 0;
 	AnimData.EndFrame = 9;
 
-	ASM1->AddAnimation(SdlRenderer,
+	MyCharacter->AddAnimation(SdlRenderer,
 		"Content/Images/MainShip/Main Ship - Shields - Front Shield.png",
 		AnimData);
 
@@ -215,7 +222,7 @@ void Game::BeginPlay()
 	AnimData.StartFrame = 0;
 	AnimData.EndFrame = 5;
 
-	ASM1->AddAnimation(SdlRenderer,
+	MyCharacter->AddAnimation(SdlRenderer,
 		"Content/Images/MainShip/Main Ship - Shields - Front and Side Shield.png",
 		AnimData);
 
@@ -226,7 +233,10 @@ void Game::BeginPlay()
 	AnimData.StartFrame = 0;
 	AnimData.EndFrame = 6;
 
-	ASM1->AddAnimation(SdlRenderer,
+	MyCharacter->AddAnimation(SdlRenderer,
 		"Content/Images/MainShip/Main Ship - Weapons - Auto Cannon.png",
 		AnimData);
+
+	//Add the character into the game object stack
+	AllGameObjects.push_back(MyCharacter);
 }

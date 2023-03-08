@@ -1,8 +1,12 @@
 #pragma once
 #include "SDL2/SDL.h"
 #include <iostream>
+#include <vector>
+using namespace std;
 
 class AnimStateMachine;
+class Input;
+class GameObject;
 
 class Game {
 public:
@@ -22,6 +26,9 @@ public:
 	//For average timing
 	//convert from precise double to less precise float
 	float GetFDeltaTime() const { return static_cast<float>(DeltaTime); }
+
+	//sets the gameover to true which closes the app
+	void CloseApp() { bIsGameOver = true; }
 
 private:
 	Game();
@@ -58,5 +65,10 @@ private:
 
 	//hold the time between each frame
 	double DeltaTime;
-	AnimStateMachine* ASM1;
+	//Detection for player input
+	Input* PlayerInput;
+
+	//GameObject Stack
+	vector<GameObject*> AllGameObjects;
+
 };
