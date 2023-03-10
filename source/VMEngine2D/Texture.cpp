@@ -55,7 +55,8 @@ bool Texture::LoadImageFromFile(const char* Path, SDL_Renderer* SdlRenderer)
 	return SdlTexture != nullptr;
 }
 
-void Texture::Draw(SDL_Renderer* SdlRenderer, Vector2 Position, SDL_Rect* SourceRect, float Scale, bool bFlip)
+void Texture::Draw(SDL_Renderer* SdlRenderer, Vector2 Position,double Rotation, 
+	SDL_Rect* SourceRect, float Scale, bool bFlip)
 {
 	//set the rendering space and render the dimensions of the texture
 	//i.e. clip the texture
@@ -89,7 +90,8 @@ void Texture::Draw(SDL_Renderer* SdlRenderer, Vector2 Position, SDL_Rect* Source
 		SdlTexture,		//texture
 		SourceRect,		//the source rect
 		&ClipRect,		//the clip amount
-		0, 0,			//angle - rotation in degrees | where the center of the image is
+		Rotation,		//angle - rotation in degrees
+		0,				//where the center of the image is
 		FlipFlag		//how should it flip
 	);
 }

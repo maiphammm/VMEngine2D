@@ -10,11 +10,8 @@ public:
 	Character(Vector2 StartPosition);
 	~Character();
 
-	//override he process input othod/function in the GameObject base class
-	virtual void ProcessInput(Input* PlayerInput) override;
-
-	virtual void Update() override;
-
+	//Virtual allows for derived callses to override
+	//override changes the definition of the parent method to this class
 	virtual void Draw(SDL_Renderer* Renderer) override;
 
 	//Add an animation into the Animation State Machine
@@ -26,9 +23,6 @@ protected:
 
 	//Animation index used by the amin state machine
 	unsigned int AnimIndex;
-
-	//Scale of the object
-	float Scale;
 
 	//flip the animation
 	bool bFlipped;

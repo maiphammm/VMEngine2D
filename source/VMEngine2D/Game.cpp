@@ -2,7 +2,8 @@
 #include "VMEngine2D/Vector2.h"
 #include "VMEngine2D/AnimStateMachine.h"
 #include "VMEngine2D/Input.h"
-#include "VMEngine2D/GameObjects/Character.h"
+#include "VMEngine2D/GameObjects/Characters/Player.h"
+#include "VMEngine2D/GameObjects/Characters/Enemy.h"
 #include"VMEngine2D/GameObject.h"
 #include "VMEngine2D/Animation.h"
 
@@ -118,6 +119,11 @@ void Game::Update()
 
 	//set the last tick time as the current time for the next frame
 	LastTickTime = CurrentTickTime;
+
+	//run the game object logic
+	for (GameObject* SingleGameObject : AllGameObjects) {
+		SingleGameObject->Update();
+	}
 }
 
 void Game::Draw()
@@ -178,65 +184,11 @@ void Game::BeginPlay()
 {
 	cout << "Load Game Assets!" << endl;
 
-	Character* MyCharacter = new Character(Vector2(100.0f, 108.0f));
-
-	STAnimationData AnimData = STAnimationData();
-	
-	//First sprite 
-	AnimData.FPS = 24;
-	AnimData.MaxFrames = 12;
-	//the frame should be assumed as index by array values
-	AnimData.StartFrame = 0;
-	AnimData.EndFrame = 11;
-
-	MyCharacter->AddAnimation(SdlRenderer,
-		"Content/Images/MainShip/Main Ship - Shields - Round Shield.png",
-		AnimData);
-
-	//Second sprite 
-	AnimData.FPS = 24;
-	AnimData.MaxFrames = 10;
-	//the frame should be assumed as index by array values
-	AnimData.StartFrame = 0;
-	AnimData.EndFrame = 9;
-
-	MyCharacter->AddAnimation(SdlRenderer,
-		"Content/Images/MainShip/Main Ship - Shields - Invincibility Shield.png",
-		AnimData);
-
-	//Third sprite 
-	AnimData.FPS = 24;
-	AnimData.MaxFrames = 10;
-	//the frame should be assumed as index by array values
-	AnimData.StartFrame = 0;
-	AnimData.EndFrame = 9;
-
-	MyCharacter->AddAnimation(SdlRenderer,
-		"Content/Images/MainShip/Main Ship - Shields - Front Shield.png",
-		AnimData);
-
-	//Fourth sprite 
-	AnimData.FPS = 24;
-	AnimData.MaxFrames = 6;
-	//the frame should be assumed as index by array values
-	AnimData.StartFrame = 0;
-	AnimData.EndFrame = 5;
-
-	MyCharacter->AddAnimation(SdlRenderer,
-		"Content/Images/MainShip/Main Ship - Shields - Front and Side Shield.png",
-		AnimData);
-
-	//FIFth sprite 
-	AnimData.FPS = 24;
-	AnimData.MaxFrames = 7;
-	//the frame should be assumed as index by array values
-	AnimData.StartFrame = 0;
-	AnimData.EndFrame = 6;
-
-	MyCharacter->AddAnimation(SdlRenderer,
-		"Content/Images/MainShip/Main Ship - Weapons - Auto Cannon.png",
-		AnimData);
+	Player* MyCharacter = new Player(Vector2(100.0f, 108.0f), SdlRenderer);
+	Enemy* Bomber = new Enemy(Vector2(300.0f, 108.0f), SdlRenderer);
 
 	//Add the character into the game object stack
+	
+	AllGameObjects.push_back(Bomber);
 	AllGameObjects.push_back(MyCharacter);
 }

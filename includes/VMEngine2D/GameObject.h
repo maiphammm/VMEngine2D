@@ -22,4 +22,9 @@ protected:
 	//Screen position of the game object
 	Vector2 Position;
 
+	//Scale of the object
+	float Scale;
+
+	//Rotation of the whole object
+	double Rotation;
 };

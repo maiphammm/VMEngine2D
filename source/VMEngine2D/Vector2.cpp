@@ -122,14 +122,14 @@ float Vector2::Length()
 void Vector2::Normalise()
 {
 	//ithis will devide the vector by its length and will change the value
-		*this /= Length();
+		*this /= max(Length(), 1.0f);
 }
 
 Vector2 Vector2::Normalised()
 {
 	//devine the vector by its length and return the value but not change the vector
 	Vector2 Result = Vector2(0.0f, 0.0f);
-	Result = *this / Length();
+	Result = *this / max(Length(), 1.0f);
 
 	return Result;
 }

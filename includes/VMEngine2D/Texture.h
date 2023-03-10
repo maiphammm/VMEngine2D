@@ -13,11 +13,12 @@ public:
 
 	//render the image to the app window
 	void Draw(
-		SDL_Renderer* SdlRenderer, //renderer
-		Vector2 Position,		//the position on the screen
-		SDL_Rect* SourceRect,	//the clip amount of the texture
-		float Scale = 1.0f,			//how much to scale the image
-		bool bFlip = false				//if it should flip horizontally
+		SDL_Renderer* SdlRenderer,	//@param1 - renderer
+		Vector2 Position,			//@param2 - the position on the screen
+		double Rolation,				//@param3 - the rotation of the texture
+		SDL_Rect* SourceRect,		//@param4 - the clip amount of the texture
+		float Scale = 1.0f,			//@param5 - how much to scale the image
+		bool bFlip = false			//@param6 - if it should flip horizontally
 	);
 
 	//get the width and height of the texture
