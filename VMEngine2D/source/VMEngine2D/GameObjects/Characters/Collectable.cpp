@@ -2,6 +2,7 @@
 #include "VMEngine2D/AnimStateMachine.h"
 #include "VMEngine2D/Game.h"
 #include "VMEngine2D/GameObjects/Components/PhysicsComponent.h"
+#include "VMEngine2D/GameObjects/Components/CollisionComponent.h"
 
 Collectable::Collectable(Vector2 StartPosition, SDL_Renderer* Renderer)
 	: Character(StartPosition)
@@ -12,6 +13,11 @@ Collectable::Collectable(Vector2 StartPosition, SDL_Renderer* Renderer)
 	Rotation = 0.0;
 
 	MovementDir = Vector2(0.0f, 1.0f);
+
+	Collision->Dimensions.Height = 30.0f;
+	Collision->Dimensions.Width = 30.0f;
+
+	Collision->Dimensions.Offset = Vector2(2.0f, 2.0f);
 
 	STAnimationData AnimData = STAnimationData();
 

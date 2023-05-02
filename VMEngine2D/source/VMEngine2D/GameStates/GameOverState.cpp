@@ -8,11 +8,27 @@ GameOverState::GameOverState(SDL_Window* Window, SDL_Renderer* Renderer) : GameS
 {
 	ScoreText = nullptr;
 	RestartText = nullptr;
+
+	//load background music
+	BGM = Mix_LoadMUS("Content/Audio/BGMUsic/Menu_BGMUsic.wav");
+
+	//check if loaded correctly
+	if (BGM == NULL) {
+		cout << "Menu background music couldnt load" << endl;
+	}
 }
 
 void GameOverState::BeginState()
 {
 	GameState::BeginState();
+
+	//set the volume
+	Mix_VolumeMusic(25);
+
+	//play the music
+	if (Mix_PlayMusic(BGM, -1) == -1) {
+		cout << "Couldn play menu music" << endl;
+	}
 	
 	//create an empty text
 	ScoreText = new Text(StateRenderer);
@@ -69,4 +85,10 @@ void GameOverState::EndState()
 
 	ScoreText = nullptr;
 	RestartText = nullptr;
+
+	if (BGM != nullptr) {
+		//stop and free music from memory
+		Mix_HaltMusic();
+		Mix_FreeMusic(BGM);
+	}
 }

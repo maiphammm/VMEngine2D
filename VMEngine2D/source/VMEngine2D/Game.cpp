@@ -7,6 +7,7 @@
 #include "VMEngine2D/WindowMenu.h"
 
 #include "SDL2/SDL_ttf.h"
+#include "SDL2/SDL_mixer.h"
 
 using namespace std;
 
@@ -113,6 +114,14 @@ void Game::Start(const char* WTitle, bool bFullscreen, int WWidth, int WHeight)
 		
 		CloseGame();
 		return;
+	}
+
+	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) < 0) {
+		cout << "SDL mixer failed to initialise." << SDL_GetError() << endl;
+
+		CloseGame();
+		return;
+
 	}
 
 	//create a menu for the window
@@ -223,6 +232,9 @@ void Game::CloseGame()
 	if (SdlRenderer != nullptr) {
 		SDL_DestroyRenderer(SdlRenderer);
 	}
+
+	//delete the audio system from memory
+	Mix_CloseAudio();
 
 	SDL_Quit();
 }

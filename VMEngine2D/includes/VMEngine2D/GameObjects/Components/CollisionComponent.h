@@ -12,6 +12,7 @@ struct STColDimensions {
 	float Width = 25.0f;
 	float Height = 25.0f;
 	Vector2 Position;
+	Vector2 Offset;
 };
 
 class CollisionComponent :

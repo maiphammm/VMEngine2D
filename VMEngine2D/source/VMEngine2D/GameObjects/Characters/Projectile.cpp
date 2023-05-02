@@ -12,7 +12,7 @@ Projectile::Projectile()
 	Acceleration = 1000.0f;
 	Direction = Vector2::Zero();
 	Rotation = 0.0;
-	Scale = 1.0f;
+	Scale = 0.33f;
 	TargetTag = "";
 
 	Animations = new AnimStateMachine();
@@ -58,7 +58,7 @@ void Projectile::Update()
 		//oop through all targets
 		for (CollisionComponent* Target : Collision->GetOverlappedByTag(TargetTag)) {
 			//remove 1 life from characters and destroy sefl
-			if (Target->GetOwner()->ShouldDestroy()) {
+			if (!Target->GetOwner()->ShouldDestroy()) {
 				dynamic_cast<Character*>(Target->GetOwner())->RemoveLives(1);
 				this->DestroyGameObject();
 			}

@@ -13,7 +13,7 @@ Character::Character(Vector2 StartPosition)
 	bFlipped = false;
 	Position = StartPosition;
 	bOverlapDetected = false;
-	bDebugCollision = true;
+	bDebugCollision = false;
 
 	//create a new physics component and store it
 	Physics = new PhysicsComponent(this);

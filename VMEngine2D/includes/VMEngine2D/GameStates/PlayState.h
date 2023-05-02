@@ -1,8 +1,12 @@
 #pragma once
 #include "VMEngine2D/GameState.h"
 
+#include "SDL2/SDL_mixer.h"
+
 class Text;
 class Player;
+class AnimStateMachine;
+
 
 class PlayState :
 	public GameState {
@@ -34,4 +38,9 @@ protected:
 	//store the player character
 	Player* PlayerCharacter;
 
+	//hold background music
+	Mix_Music* BGM;
+
+	//hold the anim required to play
+	AnimStateMachine* BGAnims;
 };

@@ -5,6 +5,7 @@
 #include "VMEngine2D/Text.h"
 #include "VMEngine2D/Game.h"
 #include "VMEngine2D/GameStates/GameOverState.h"
+#include "VMEngine2D/AnimStateMachine.h"
 
 PlayState::PlayState(SDL_Window* Window, SDL_Renderer* Renderer) : GameState(Window, Renderer)
 {
@@ -14,6 +15,24 @@ PlayState::PlayState(SDL_Window* Window, SDL_Renderer* Renderer) : GameState(Win
 	SpawnTime = 5.0;
 	PlayerCharacter = nullptr;
 	LivesText = nullptr;
+	BGAnims = nullptr;
+
+	//create the state machine to hold the animations
+	BGAnims = new AnimStateMachine();
+
+	//create the anim data
+	STAnimationData AnimData;
+	AnimData.FPS = 24;
+	AnimData.MaxFrames = 9;
+	AnimData.EndFrame = 8;
+
+	//add the animations
+	BGAnims->AddAnimation(Renderer, "Content/Images/Background/BG_Void.png", AnimData);
+	BGAnims->AddAnimation(Renderer, "Content/Images/Background/BG_Stars1.png", AnimData);
+	BGAnims->AddAnimation(Renderer, "Content/Images/Background/BG_Stars2.png", AnimData);
+
+	//load a music file using mixer
+	BGM = Mix_LoadMUS("Content/Audio/BGMusic/Play_BGMusic.wav");
 }
 
 void PlayState::BeginState()
@@ -21,8 +40,16 @@ void PlayState::BeginState()
 	//this run the parent function
 	GameState::BeginState();
 
+	//set the volume for music play from mixer
+	Mix_VolumeMusic(25);
+
+	//play the music file
+	if (Mix_PlayMusic(BGM, -1) == -1) {
+		cout << "Couldnt play BGM in play state." << endl;
+	}
+
 	//create player
-	PlayerCharacter = new Player(Vector2(100.0f, 100.0f), StateRenderer);
+	PlayerCharacter = new Player(Vector2(470.0f, 400.0f), StateRenderer);
 
 	//Add the character into the game object stack
 	SpawnGameObject(PlayerCharacter);
@@ -143,6 +170,13 @@ void PlayState::Update(float DeltaTime)
 
 void PlayState::Draw(SDL_Renderer* Renderer)
 {
+	//draw void
+	BGAnims->Draw(Renderer, 0, Vector2::Zero(), 0.0, 1.6f, false);
+	//draw stars1
+	BGAnims->Draw(Renderer, 1, Vector2::Zero(), 0.0, 1.6f, false);
+	//draw star2
+	BGAnims->Draw(Renderer, 2, Vector2::Zero(), 0.0, 1.6f, false);
+
 	GameState::Draw(Renderer);
 }
 
@@ -150,4 +184,10 @@ void PlayState::EndState()
 {
 	GameState::EndState();
 	ScoreText = nullptr;
+
+	//if BGM was assigned then stop music
+	if (BGM != nullptr) {
+		Mix_HaltMusic();
+		Mix_FreeMusic(BGM);
+	}
 }

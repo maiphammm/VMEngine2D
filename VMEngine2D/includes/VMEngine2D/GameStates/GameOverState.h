@@ -1,6 +1,6 @@
 #pragma once
 #include "VMEngine2D/GameState.h"
-
+#include "SDL2/SDL_mixer.h"
 class Text;
 
 class GameOverState :
@@ -24,4 +24,7 @@ protected:
 
 	//restart test
 	Text* RestartText;
+
+	//store the background music
+	Mix_Music* BGM;
 };

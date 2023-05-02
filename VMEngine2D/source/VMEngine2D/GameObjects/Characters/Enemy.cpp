@@ -2,16 +2,23 @@
 #include "VMEngine2D/AnimStateMachine.h"
 #include "VMEngine2D/Game.h"
 #include "VMEngine2D/GameObjects/Components/PhysicsComponent.h"
+#include "VMEngine2D/GameObjects/Components/CollisionComponent.h"
 
 Enemy::Enemy(Vector2 StartPosition, SDL_Renderer* Renderer)
 	: Character(StartPosition)
 {
 	Tag = "Enemy";
-	Scale = 3.0f;
+	Scale = 1.5f;
 	
 	Rotation = 180.0;
 
 	MovementDir = Vector2(0.0f, 1.0f);
+	Physics->MaxVelocity = 100.0f;
+
+	Collision->Dimensions.Height = 55.0f;
+	Collision->Dimensions.Width = 55.0f;
+
+	Collision->Dimensions.Offset = Vector2(20.0f, 20.0f);
 
 	STAnimationData AnimData = STAnimationData();
 	AnimData.FPS = 0;

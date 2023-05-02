@@ -31,7 +31,7 @@ void CollisionComponent::Update()
 	Components::Update();
 
 	//folow the position of the parent game object
-	Dimensions.Position = OwnerObject->Position;
+	Dimensions.Position = OwnerObject->Position + Dimensions.Offset;
 
 	//loop all of the game colliders and detect intersecting colliders
 	for (CollisionComponent* OtherCol : AttachedGameState->GetStateCollisions()) {
